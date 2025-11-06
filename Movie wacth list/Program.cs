@@ -1,7 +1,19 @@
+using LogicLayer.Services;
+using LogicLayer.Interfaces;
+using DataLayer.Repositories;
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<UserService>();
+
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<MovieService>();
 
 var app = builder.Build();
 

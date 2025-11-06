@@ -1,32 +1,26 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Movie_wacth_list.Models;
+using LogicLayer.Models;
+using LogicLayer.Services;
+using System.Linq;
 
 namespace Movie_wacth_list.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly UserService _userService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(UserService userService)
         {
-            _logger = logger;
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            // Fetch users from the service and ensure a non-null list for the view
+            var users = _userService.GetAllUsers() ?? Enumerable.Empty<User>();
+            return View(users.ToList());
         }
     }
 }
