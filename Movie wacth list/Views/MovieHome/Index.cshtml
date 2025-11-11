@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model List<LogicLayer.Models.Movie>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -8,52 +10,39 @@
 </head>
 <body>
     <header>
-        <h1>MyFlix</h1>
+        <h1>Home</h1>
         <nav class="nav-links">
             <a href="#">Home</a>
-            <a href="#">Movies</a>
-            <a href="#">Series</a>
             <a href="#">My List</a>
         </nav>
+
     </header>
 
     <main>
         <section class="movie-section">
             <h2>Popular Movies</h2>
             <div class="movie-row">
-                <div class="movie">Movie 1</div>
-                <div class="movie">Movie 2</div>
-                <div class="movie">Movie 3</div>
-                <div class="movie">Movie 4</div>
-                <div class="movie">Movie 5</div>
+            @if (Model != null && Model.Any())
+            {
+             
+                foreach (var movie in Model)
+                {
+                    
+                        <div class="movie">@movie.Name</div>
+               
+                   
+                }
+                
+            }
             </div>
+
+
         </section>
 
-        <section class="movie-section">
-            <h2>New Releases</h2>
-            <div class="movie-row">
-                <div class="movie">Movie 1</div>
-                <div class="movie">Movie 2</div>
-                <div class="movie">Movie 3</div>
-                <div class="movie">Movie 4</div>
-                <div class="movie">Movie 5</div>
-            </div>
-        </section>
-
-        <section class="movie-section">
-            <h2>Top Rated</h2>
-            <div class="movie-row">
-                <div class="movie">Movie 1</div>
-                <div class="movie">Movie 2</div>
-                <div class="movie">Movie 3</div>
-                <div class="movie">Movie 4</div>
-                <div class="movie">Movie 5</div>
-            </div>
-        </section>
     </main>
 
     <footer>
-        <p>© 2025 MyFlix</p>
+        <p>© 2025 MovieWatch-List</p>
     </footer>
 </body>
 </html>
