@@ -27,9 +27,10 @@
              
                 foreach (var movie in Model)
                 {
-                    
-                        <div class="movie">@movie.Name</div>
-               
+
+                        <a class="movie" href="@Url.Action("Details", "MovieHome", new { id = movie.Id })">
+                            @movie.Name
+                        </a>
                    
                 }
                 

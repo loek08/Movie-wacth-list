@@ -1,0 +1,30 @@
+﻿@model LogicLayer.Models.Movie
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@Model?.Name - MyFlix</title>
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+</head>
+<body>
+    <header>
+        <h1>MyFlix</h1>
+    </header>
+
+    <main class="details-page">
+        <div class="details-container">
+            <div class="movie movie-large">@Model?.Name</div>
+            <div class="movie-info">
+                <h2>@Model?.Name</h2>
+                @* <p><strong>Genre:</strong> @Model.Genre</p>
+                <p><strong>Year:</strong> @Model.Year</p> *@
+                <p>@Model?.Info</p>
+                <a href="@Url.Action("Index", "MovieHome")" class="back-link">← Back to Home</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

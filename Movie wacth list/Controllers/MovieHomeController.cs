@@ -17,5 +17,15 @@ namespace Movie_wacth_list.Controllers
             var movies = _movieService.GetAllMovies() ?? Enumerable.Empty<Movie>();
             return View(movies.ToList());
         }
+
+        public IActionResult Details(int id)
+        {
+            var movie = _movieService.GetAllMovies() ?.FirstOrDefault(m => m.Id == id);
+
+            if (movie == null)
+                return NotFound();
+
+            return View(movie);
+        }
     }
 }

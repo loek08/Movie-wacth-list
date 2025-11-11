@@ -22,5 +22,9 @@ namespace Movie_wacth_list.Controllers
             var users = _userService.GetAllUsers() ?? Enumerable.Empty<User>();
             return View(users.ToList());
         }
+
+
+
+
     }
 }
