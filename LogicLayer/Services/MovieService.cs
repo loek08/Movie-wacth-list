@@ -19,5 +19,15 @@ namespace LogicLayer.Services
         {
             return _movieRepository.GetMovies();
         }
+
+        public IEnumerable<MovieToWatch> GetWatchList(int userId)
+        {
+            if (userId == 0)
+            {
+                return Enumerable.Empty<MovieToWatch>();
+            }
+            return _movieRepository.ToWatches();
+
+        }
     }
 }

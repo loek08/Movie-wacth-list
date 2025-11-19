@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using LogicLayer.Interfaces;
 using LogicLayer.Models;
+using System.Net.Mime;
 
 namespace DataLayer.Repositories
 {
@@ -56,5 +57,32 @@ namespace DataLayer.Repositories
             }
             return users;
         }
+        // dit is een uitleg dat ik IEnumerable een array kan maken
+        //public IEnumerable<User> GetArrayUser()
+        //{
+        //    User[] users = Array.Empty<User>();
+        //    users = (User[])GetUsers();
+        //    return users;
+        //}
+
+        public void AddUser(User user)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "INSERT INTO Users (firstName, lastName, emailAdress, Password, userName) " +
+                                "VALUES (@FirstName, @LastName, @EmailAdress, @Password, @UserName)";
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@FirstName", user.firstName);
+                    cmd.Parameters.AddWithValue("@LastName", user.lastName);
+                    cmd.Parameters.AddWithValue("@EmailAdress", user.emailAdress);
+                    cmd.Parameters.AddWithValue("@Password", user.Password);
+                    cmd.Parameters.AddWithValue("@UserName", user.userName);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }

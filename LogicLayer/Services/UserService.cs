@@ -10,6 +10,7 @@ namespace LogicLayer.Services
 {
     public class UserService
     {
+      
         private readonly IUserRepository _userRepository;   
 
         public UserService(IUserRepository userRepository)
@@ -21,5 +22,12 @@ namespace LogicLayer.Services
         {
             return _userRepository.GetUsers();
         }
+
+        public IEnumerable<User> GetUsers() 
+        {
+            return _userRepository.GetUsers();
+        }
+
+
     }
 }

@@ -27,7 +27,7 @@ namespace DataLayer.Repositories
         {
             return new SqlConnection(_connectionString);
         }
-        
+
         public IEnumerable<Movie> GetMovies()
         {
             var movies = new List<Movie>();
@@ -42,7 +42,6 @@ namespace DataLayer.Repositories
                     {
                         var movie = new Movie
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             ReleaseYear = reader.GetInt32(reader.GetOrdinal("ReleaseYear")),
                             Info = reader.GetString(reader.GetOrdinal("Info"))
@@ -52,8 +51,23 @@ namespace DataLayer.Repositories
                 }
             }
             return movies;
+
+
         }
+        public IEnumerable<MovieToWatch> ToWatches()
+        {
+            var toWatch = new List<MovieToWatch>();
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = "SELECT Id, Name FROM Movies";
+                string query2 = "SELECT StatusNaam FROM WatchStatus";
+                using (var cmd = new SqlCommand(query, conn))
+                using (var cmd2 = new SqlCommand(query2, conn))
+                using (var reader = cmd.ExecuteReader()) ;
 
-
+            }
+            return toWatch;
+        }
     }
 }

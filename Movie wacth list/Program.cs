@@ -8,12 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+//user DI
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<UserService>();
 
+//Movie DI
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<MovieService>();
+
+//List DI
+
 
 var app = builder.Build();
 
