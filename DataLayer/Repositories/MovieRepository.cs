@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using LogicLayer.Interfaces;
 using LogicLayer.Models;
@@ -54,18 +53,36 @@ namespace DataLayer.Repositories
 
 
         }
-        public IEnumerable<MovieToWatch> ToWatches()
+        public IEnumerable<MovieToWatch> ToWatches(int userId)
         {
             var toWatch = new List<MovieToWatch>();
             using (var conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
-                string query = "SELECT Id, Name FROM Movies";
-                string query2 = "SELECT StatusNaam FROM WatchStatus";
-                using (var cmd = new SqlCommand(query, conn))
-                using (var cmd2 = new SqlCommand(query2, conn))
-                using (var reader = cmd.ExecuteReader()) ;
+                 string query = @"
+                    SELECT m.Id, m.Name, ws.StatusNaam, wl.StatusId, wl.UserId
+                    FROM Movies m
+                    INNER JOIN WatchLists wl ON wl.MovieId = m.Id
+                    INNER JOIN WatchStatus ws ON wl.StatusId = ws.StatusId
+                    WHERE wl.UserId = @userId;
+                ";
 
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.Add(new SqlParameter("@userId", System.Data.SqlDbType.Int) { Value = userId });
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var movieToWatch = new MovieToWatch(
+                                reader.GetString(reader.GetOrdinal("Name")),
+                                reader.GetInt32(reader.GetOrdinal("Id")),
+                                reader.GetString(reader.GetOrdinal("StatusNaam"))
+                            );
+                            toWatch.Add(movieToWatch);
+                        }
+                    }
+                }
             }
             return toWatch;
         }
