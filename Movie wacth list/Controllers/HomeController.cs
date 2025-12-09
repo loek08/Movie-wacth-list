@@ -18,9 +18,10 @@ namespace Movie_wacth_list.Controllers
 
         public IActionResult Index()
         {
-            // Fetch users from the service and ensure a non-null list for the view
+            
             var users = _userService.GetAllUsers() ?? Enumerable.Empty<User>();
             return View(users.ToList());
+            
         }
 
 

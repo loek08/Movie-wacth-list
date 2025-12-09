@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LogicLayer.Interfaces;
 
 namespace LogicLayer.Models
 {
@@ -14,6 +10,20 @@ namespace LogicLayer.Models
         public string emailAdress { get; set; }
         public string Password { get; set; }
         public string userName { get; set; }
+        public List<MovieToWatch> watchList { get; set; }
 
+        public User()
+        {
+            watchList = new List<MovieToWatch>();
+        }
+
+        public bool CheckIfUserExistInDatabase(int userId, IUserRepository repository)
+        {
+            if (repository.checkUserIdExist(userId) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

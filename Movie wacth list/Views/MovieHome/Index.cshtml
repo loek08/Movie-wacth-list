@@ -27,11 +27,9 @@
              
                 foreach (var movie in Model)
                 {
-
-                        <a class="movie" href="@Url.Action("Details", "MovieHome", new { id = movie.Id })">
+                        <a class="movie" asp-controller="MovieHome" asp-action="Details" asp-route-id="@movie.Id">
                             @movie.Name
-                        </a>
-                   
+                        </a>               
                 }
                 
             }

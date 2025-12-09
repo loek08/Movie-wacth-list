@@ -7,6 +7,9 @@ namespace LogicLayer.Interfaces
     {
         IEnumerable<User> GetUsers();
 
-        void AddUser(User user);    
+        void AddUser(User user);
+        int checkUserIdExist(int user);
+        
+
     }
 }

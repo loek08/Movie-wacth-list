@@ -84,5 +84,17 @@ namespace DataLayer.Repositories
             }
         }
 
+        public int checkUserIdExist(int userId)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT CASE WHEN EXISTS(SELECT 1 FROM Users WHERE Id = @Id) THEN 1 ELSE 0 END";
+                cmd.Parameters.AddWithValue("@Id", userId);
+                var result = cmd.ExecuteScalar();
+                return Convert.ToInt32(result);
+            }
+        }
     }
 }

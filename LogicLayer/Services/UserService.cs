@@ -28,6 +28,17 @@ namespace LogicLayer.Services
             return _userRepository.GetUsers();
         }
 
+        public bool checkUserId(int userId )
+        {
+            if (userId < 0)
+            {
+                throw new ArgumentException("Invalid user ID.");
+            }
 
+            var user = new User();
+            var result = user.CheckIfUserExistInDatabase(userId, _userRepository);
+
+            return result;
+        }
     }
 }

@@ -23,8 +23,21 @@
                 <p><strong>Year:</strong> @Model.Year</p> *@
                 <p>@Model?.Info</p>
                 <a href="@Url.Action("Index", "MovieHome")" class="back-link">← Back to Home</a>
+
             </div>
         </div>
     </main>
+    <div>
+
+        <form asp-controller="MovieHome" asp-action="AddToWatchList" method="post">
+            <input type="hidden" name="movieId" value="@Model?.Id" />
+            <button type="submit" class="btn btn-primary">Add to Watch List</button>
+        </form>
+        <form asp-controller="MovieHome" asp-action="RemoveFromWatchList" method="post">
+            <input type="hidden" name="movieId" value="@Model?.Id" />
+            <button type="submit" class="btn btn-danger">Remove from Watch List</button>
+        </form>
+       
+    </div>
 </body>
 </html>

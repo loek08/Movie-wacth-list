@@ -20,10 +20,36 @@ namespace LogicLayer.Services
             return _movieRepository.GetMovies();
         }
 
-        public IEnumerable<MovieToWatch> GetWatchList(int userId)
+        public IReadOnlyList<MovieToWatch> GetWatchList(int userId)
         {
-            if (userId < 0) return Enumerable.Empty<MovieToWatch>();
+            if (userId < 0) throw new ArgumentOutOfRangeException(nameof(userId), "User ID must be non-negative.");
             return _movieRepository.ToWatches(userId);
         }
+
+        public void AddMovieToWatchList(int userId, int movieId)
+        {
+            if (userId < 0) throw new ArgumentOutOfRangeException(nameof(userId), "User ID must be non-negative.");
+            if (movieId < 0) throw new ArgumentOutOfRangeException(nameof(movieId), "Movie ID must be non-negative.");
+       
+
+            _movieRepository.AddMovieToWatchList(userId, movieId);
+        }
+
+        public void RemoveMovieFromWatchList(int userId, int movieId)
+        {
+            if (userId < 0) throw new ArgumentOutOfRangeException(nameof(userId), "User ID must be non-negative.");
+            if (movieId < 0) throw new ArgumentOutOfRangeException(nameof(movieId), "Movie ID must be non-negative.");
+            _movieRepository.RemoveMovieFromWatchList(userId, movieId);
+        }
+
+        public bool CheckMovieExists(int movieId)
+        {
+            int userId = 2;
+            var movielist = new MovieToWatch("", movieId, "");
+            var result = movielist.CheckIfMovieExistInUserList(userId, movieId, _movieRepository);
+            
+            return result;
+        }
+
     }
 }

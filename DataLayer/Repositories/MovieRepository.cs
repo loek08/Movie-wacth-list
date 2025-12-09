@@ -33,7 +33,7 @@ namespace DataLayer.Repositories
             using (var conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
-                string query = "SELECT * FROM Movies";
+                string query = "SELECT Id, Name, ReleaseYear, Info FROM Movies";
                 using (var cmd = new SqlCommand(query, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -41,6 +41,8 @@ namespace DataLayer.Repositories
                     {
                         var movie = new Movie
                         {
+                        
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             ReleaseYear = reader.GetInt32(reader.GetOrdinal("ReleaseYear")),
                             Info = reader.GetString(reader.GetOrdinal("Info"))
@@ -53,7 +55,7 @@ namespace DataLayer.Repositories
 
 
         }
-        public IEnumerable<MovieToWatch> ToWatches(int userId)
+        public  IReadOnlyList<MovieToWatch> ToWatches(int userId)
         {
             var toWatch = new List<MovieToWatch>();
             using (var conn = new SqlConnection(_connectionString))
@@ -86,5 +88,42 @@ namespace DataLayer.Repositories
             }
             return toWatch;
         }
+
+        public void AddMovieToWatchList(int userId, int movieId)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = @"
+                    INSERT INTO WatchLists (UserId, MovieId, StatusId)
+                    VALUES (@userId, @movieId, 3); 
+                ";
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.Add(new SqlParameter("@userId", System.Data.SqlDbType.Int) { Value = userId });
+                    cmd.Parameters.Add(new SqlParameter("@movieId", System.Data.SqlDbType.Int) { Value = movieId });
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public void RemoveMovieFromWatchList(int userId, int movieId)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                string query = @"
+                    DELETE FROM WatchLists
+                    WHERE UserId = @userId AND MovieId = @movieId;
+                ";
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.Add(new SqlParameter("@userId", System.Data.SqlDbType.Int) { Value = userId });
+                    cmd.Parameters.Add(new SqlParameter("@movieId", System.Data.SqlDbType.Int) { Value = movieId });
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
     }
 }

@@ -10,6 +10,9 @@ namespace LogicLayer.Interfaces
     public interface IMovieRepository
     {
         IEnumerable<Movie> GetMovies();
-        IEnumerable<MovieToWatch> ToWatches(int userId);
+        IReadOnlyList<MovieToWatch> ToWatches(int userId);
+        void AddMovieToWatchList(int userId, int movieId);
+        void RemoveMovieFromWatchList(int userId, int movieId);
+
     }
 }

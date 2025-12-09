@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogicLayer.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,14 @@ namespace LogicLayer.Models
             Status = status;
         }
 
+
+        public bool CheckIfMovieExistInUserList(int userId, int movieId, IMovieRepository repository)
+        {
+            while (repository.ToWatches(userId).Any(m => m.MovieId == movieId))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
