@@ -1,4 +1,5 @@
 ﻿using LogicLayer.Interfaces;
+using LogicLayer.Services;
 
 namespace LogicLayer.Models
 {
@@ -10,11 +11,13 @@ namespace LogicLayer.Models
         public string emailAdress { get; set; }
         public string Password { get; set; }
         public string userName { get; set; }
-        public List<MovieToWatch> watchList { get; set; }
+        //public List<MovieToWatch>  watchList { get; set; }
+        
 
         public User()
         {
-            watchList = new List<MovieToWatch>();
+            //watchList = new List<MovieToWatch>();
+            
         }
 
         public bool CheckIfUserExistInDatabase(int userId, IUserRepository repository)
@@ -25,5 +28,12 @@ namespace LogicLayer.Models
             }
             return false;
         }
+
+        public bool HasMovieToWatch(int movieId, int userId, MovieService movieService) 
+        { 
+            var watchList = movieService.GetWatchList(userId);
+            return watchList.Any(m => m.MovieId != movieId);
+        }
+
     }
 }

@@ -30,7 +30,12 @@ namespace LogicLayer.Services
         {
             if (userId < 0) throw new ArgumentOutOfRangeException(nameof(userId), "User ID must be non-negative.");
             if (movieId < 0) throw new ArgumentOutOfRangeException(nameof(movieId), "Movie ID must be non-negative.");
-       
+
+            var user = new User();
+            // Fix: Pass required parameters to HasMovieToWatch
+            if (user.HasMovieToWatch(movieId, userId, this) == false) throw new InvalidOperationException("Movie bestaat al");
+
+
 
             _movieRepository.AddMovieToWatchList(userId, movieId);
         }
@@ -42,14 +47,6 @@ namespace LogicLayer.Services
             _movieRepository.RemoveMovieFromWatchList(userId, movieId);
         }
 
-        public bool CheckMovieExists(int movieId)
-        {
-            int userId = 2;
-            var movielist = new MovieToWatch("", movieId, "");
-            var result = movielist.CheckIfMovieExistInUserList(userId, movieId, _movieRepository);
-            
-            return result;
-        }
 
     }
 }

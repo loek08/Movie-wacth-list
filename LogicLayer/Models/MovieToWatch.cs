@@ -20,13 +20,13 @@ namespace LogicLayer.Models
         }
 
 
-        public bool CheckIfMovieExistInUserList(int userId, int movieId, IMovieRepository repository)
-        {
-            while (repository.ToWatches(userId).Any(m => m.MovieId == movieId))
-            {
-                return true;
-            }
-            return false;
-        }
+        //public bool CheckIfMovieExistInUserList(int userId, int movieId, IMovieRepository repository)
+        //{
+        //    while (repository.ToWatches(userId).Any(m => m.MovieId == movieId))
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
     }
 }

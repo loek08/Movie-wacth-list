@@ -1,6 +1,7 @@
 ﻿using LogicLayer.Models;
 using LogicLayer.Services;
 using Microsoft.AspNetCore.Mvc;
+using LogicLayer.Interfaces;
 
 namespace Movie_wacth_list.Controllers
 {
@@ -33,13 +34,10 @@ namespace Movie_wacth_list.Controllers
         {
             
             int userId = 2; 
+
             try
             {
-                var checks = _movieService.CheckMovieExists(movieId);
-                if (checks == true)
-                {
-                   return BadRequest("Movie already in watchlist.");
-                }
+
                 _movieService.AddMovieToWatchList(userId, movieId);
 
                 return RedirectToAction("Index", "UserList");
