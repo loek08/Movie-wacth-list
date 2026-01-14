@@ -1,7 +1,5 @@
 ﻿@model LogicLayer.Models.Movie
 
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,34 +8,80 @@
     <link rel="stylesheet" href="~/css/StyleSheet.css" />
 </head>
 <body>
+
     <header>
         <h1>MyFlix</h1>
     </header>
 
-    <main class="details-page">
-        <div class="details-container">
-            <div class="movie movie-large">@Model?.Name</div>
-            <div class="movie-info">
-                <h2>@Model?.Name</h2>
-                @* <p><strong>Genre:</strong> @Model.Genre</p>
-                <p><strong>Year:</strong> @Model.Year</p> *@
-                <p>@Model?.Info</p>
-                <a href="@Url.Action("Index", "MovieHome")" class="back-link">← Back to Home</a>
+    <main class="details-container">
 
-            </div>
+        <!-- Movie placeholder -->
+        <div class="movie-large">
+            @Model?.Name
+        </div>
+
+        <!-- Movie info and review -->
+        <div class="movie-info">
+
+            <h2>@Model?.Name</h2>
+            <p>@Model?.Info</p>
+
+            <a href="@Url.Action("Index", "MovieHome")" class="back-link">
+                ← Back to Home
+            </a>
+
+            <hr />
+
+            <h3>Write a review</h3>
+
+            <form asp-controller="MovieHome" asp-action="AddReview" method="post">
+
+                <!-- Movie id -->
+                <input type="hidden" name="movieId" value="@Model?.Id" />
+
+                <!-- RATING -->
+                <label class="rating-label">Rating</label>
+
+                <div class="rating-scale">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                    <span>6</span>
+                    <span>7</span>
+                    <span>8</span>
+                    <span>9</span>
+                    <span>10</span>
+                </div>
+
+                <input type="range"
+                       name="Rating"
+                       min="1"
+                       max="10"
+                       step="1"
+                       value="5"
+                       class="rating-slider" />
+
+                <p class="rating-hint">
+                    1 = Worst, 10 = Best
+                </p>
+
+                <!-- REVIEW TEXT -->
+                <textarea name="ReviewText"
+                          class="review-text"
+                          placeholder="Write your review here..."
+                          required></textarea>
+
+                <!-- SUBMIT -->
+                <button type="submit" class="review-button">
+                    Submit Review
+                </button>
+
+            </form>
+
         </div>
     </main>
-    <div>
 
-        <form asp-controller="MovieHome" asp-action="AddToWatchList" method="post">
-            <input type="hidden" name="movieId" value="@Model?.Id" />
-            <button type="submit" class="btn btn-primary">Add to Watch List</button>
-        </form>
-        <form asp-controller="MovieHome" asp-action="RemoveFromWatchList" method="post">
-            <input type="hidden" name="movieId" value="@Model?.Id" />
-            <button type="submit" class="btn btn-danger">Remove from Watch List</button>
-        </form>
-       
-    </div>
 </body>
 </html>

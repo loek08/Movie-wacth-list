@@ -33,6 +33,7 @@ namespace LogicLayer.Services
 
             var user = new User();
             // Fix: Pass required parameters to HasMovieToWatch
+           
             if (user.HasMovieToWatch(movieId, userId, this) == false) throw new InvalidOperationException("Movie bestaat al");
 
 

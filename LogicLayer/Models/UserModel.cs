@@ -32,7 +32,20 @@ namespace LogicLayer.Models
         public bool HasMovieToWatch(int movieId, int userId, MovieService movieService) 
         { 
             var watchList = movieService.GetWatchList(userId);
-            return watchList.Any(m => m.MovieId != movieId);
+            var count = watchList.Count();
+            if (count == 0)
+            {
+                return true;
+            }
+            foreach (var movie in watchList)
+            {
+                if (movie.MovieId != movieId)
+                {
+                    return true;
+                }
+
+            }
+            return false;
         }
 
     }
